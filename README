@@ -1,0 +1,40 @@
+Title: README for wmexamples
+Author: Bryan Fink
+Source URL: http://bitbucket.org/bryan/wmexamples/
+Created: 2009.May.18
+------
+
+wmexamples is a demonstration Webmachine application.  It contains a handful of Webmachine resources that I have posted elsewhere, but have chosen to assembled here to show off.  To run this application, you'll need:
+
+- Erlang - http://erlang.org/
+- Webmachine - http://bitbucket.org/justin/webmachine
+- ibrowse - http://code.google.com/p/erl-ibrowse/
+
+Note: ibrowse is only needed for the CouchDB proxy resource.  If you will not be using couchdb_proxy, you can remove the dependency on ibrowse by commenting out the "ensure_started(ibrowse)" and "application:stop(ibrowse)" lines in src/wmexamples.erl.
+
+
+Installation
+---
+
+Checkout/unpack wmexamples.
+
+If the directory in which wmexamples lives also contains webmachine and ibrowse, you should be all set.  If not, you'll need to change the symlinks in wmexamples/deps to point to where webmachine and ibrowse are installed.
+
+cd wmexamples
+make
+
+If everything makes fine, run ./start.sh or ./start-dev.sh, then point curl or a browser at http://localhost:8000.  You should get a "Hello, new world" message back.
+
+
+Example Resources
+---
+
+The best place to determine what resources are enabled is in priv/dispatch.conf.  That file describes the dispatch table for this Webmachine application, and also contains helpful comments.  Other short descriptions of what examples are included are below.
+
+
+CouchDB Proxy Resource
+---
+
+couchdb_proxy.erl describe a proxy resource for exposing raw CouchDB through a webmachine app.  It does very minimal request processing - only fixing Location headers such that clients of the webmachine resource direct their requests properly.
+
+To use couchdb_proxy.erl in your own application, copy the file to your application's src tree, and also make sure the ibrowse is started before any requests are made to the resource (wmexamples starts ibrowse at startup in wmexamples.erl).

@@ -21,12 +21,14 @@ start() ->
     wmexamples_deps:ensure(),
     ensure_started(crypto),
     ensure_started(webmachine),
+    ensure_started(ibrowse),
     application:start(wmexamples).
 
 %% @spec stop() -> ok
 %% @doc Stop the wmexamples server.
 stop() ->
     Res = application:stop(wmexamples),
+    application:stop(ibrowse),
     application:stop(webmachine),
     application:stop(crypto),
     Res.
