@@ -58,3 +58,15 @@ To use couchdb_proxy.erl in your own application, copy the file to
 your application's src tree, and also make sure the ibrowse is started
 before any requests are made to the resource (wmexamples starts
 ibrowse at startup in wmexamples.erl).
+
+Environment Variable Resource
+---
+
+env_resource.erl was a sample resource for demonstrating
+implementations of several Webmachine resource functions.  The goal of
+this resource was to expose the ability to inspect and modify
+OS-environment variables.
+
+The story of env_resource's development is available in five blog
+posts starting at http://blog.beerriot.com/2009/04/13/
+simple-webmachine-proper-http-resources/
