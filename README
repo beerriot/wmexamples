@@ -70,3 +70,19 @@ OS-environment variables.
 The story of env_resource's development is available in five blog
 posts starting at http://blog.beerriot.com/2009/04/13/
 simple-webmachine-proper-http-resources/
+
+Sample Trace Resource
+---
+
+The Webmachine trace utility is available at
+http://localhost:8000/wmtrace/ while this application is running.
+
+Four example trace files have been included in the "traces" directory.
+They are named example-trace-CODE.wmtrace, where CODE is the HTTP
+status code the resource returned at the end of the request.
+
+The sample trace files were generated with the sampletrace_resource,
+which is included and exposed at http://localhost:8000/sampletrace
+That resource isn't good for much other than generating those simple
+examples, but I thought it best to include it for demonstration
+purposes.
