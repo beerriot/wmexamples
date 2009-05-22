@@ -1,0 +1,23 @@
+table {
+    margin-bottom: 1.5em;
+}
+
+th {
+    text-align: left;
+    font-size: larger;
+}
+
+td.label {
+    text-align: right;
+    font-size: smaller;
+    color: #ccc;
+}
+
+span.pathmatch {
+    font-style: italic;
+    color: #909;
+}
+
+pre {
+    margin: 0px;
+}
