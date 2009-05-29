@@ -78,17 +78,20 @@ dispatch_details(ReqData) ->
                     Dispatch)))].
 
 dispatch_detail(D={Path, Resource, Args}, HasMatch, Url) ->
-    Dispatch = webmachine_dispatcher:dispatch(Url, [D]),
+    Dispatch = if is_list(Url) ->
+                       webmachine_dispatcher:dispatch(Url, [D]);
+                  true -> false
+               end,
     {case Dispatch of
          {_Mod, _, _, _, _, _} -> true;
-         {no_dispatch_match, _} -> false
+         _                     -> false
      end,
      divblock(
        [{"class",
          case {HasMatch, Dispatch} of
              {true, {_Mod, _, _, _, _, _}} -> "match";
-             {true, {no_dispatch_match, _}} -> "pass";
-             {false, _} -> "none"
+             {true, _}                     -> "pass";
+             {false, _}                    -> "none"
          end}],
        table([],
              [tr([], th([{"colspan", "2"}], dispatch_path(Path))), "\n",
