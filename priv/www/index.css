@@ -21,3 +21,23 @@ span.pathmatch {
 pre {
     margin: 0px;
 }
+
+div, p {
+    border-left: solid 10px #fff;
+    padding-left: 1em;
+}
+
+div.pass, div.match, p.match {
+    border-left: solid 10px #090;
+    padding-left: 1em;
+}
+
+p.nomatch {
+    border-left: solid 10px #900;
+    padding-left: 1em;
+    background: #fee;
+}
+
+p.match, div.match {
+    background: #efe;
+}

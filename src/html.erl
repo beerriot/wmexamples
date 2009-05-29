@@ -43,6 +43,9 @@
 ?TAG(th).
 ?TAG(tr).
 ?TAG(td).
+?TAG(form).
+?TAG(label).
+?TAG(input).
 
 html(_Attrs, Content) ->
     [<<"<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n">>,
