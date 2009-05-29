@@ -68,36 +68,56 @@ dispatch_details(ReqData) ->
      p([], [?DISPATCH_FILENAME, " is exposing the following paths:"]),
      lists:reverse(element(2,
         lists:foldl(fun(D, {true, Acc}) ->
-                            Matches = case webmachine_dispatcher:dispatch(
-                                             Url, [D]) of
-                                          {_Mod, _, _, _, _, _} ->
-                                              true;
-                                          {no_dispatch_match, _} ->
-                                              false
-                                      end,
-                            {not Matches,
-                             [["\n",divblock([{"class", if Matches -> "match";
-                                                           true -> "pass"
-                                                        end}],
-                                             dispatch_detail(D))]
-                              |Acc]};
+                            {Matched, Content} = dispatch_detail(D, true, Url),
+                            {not Matched, ["\n",Content|Acc]};
                        (D, {False, Acc}) ->
-                            {False,
-                             [["\n",divblock([], dispatch_detail(D))]|Acc]}
+                            {_, Content} = dispatch_detail(D, false, Url),
+                            {False, ["\n",Content|Acc]}
                     end,
                     {HasMatch, []},
                     Dispatch)))].
 
-dispatch_detail({Path, Resource, Args}) ->
-    table([],
-          [tr([], th([{"colspan", "2"}], dispatch_path(Path))), "\n",
-           tr([],
-              [td([{"class", "label"}], "resource"),
-               td([], dispatch_resource(Resource))]), "\n",
-           tr([],
-              [td([{"class", "label"}], "argument"),
-               td([], dispatch_args(Args))])
-          ]).
+dispatch_detail(D={Path, Resource, Args}, HasMatch, Url) ->
+    Dispatch = webmachine_dispatcher:dispatch(Url, [D]),
+    {case Dispatch of
+         {_Mod, _, _, _, _, _} -> true;
+         {no_dispatch_match, _} -> false
+     end,
+     divblock(
+       [{"class",
+         case {HasMatch, Dispatch} of
+             {true, {_Mod, _, _, _, _, _}} -> "match";
+             {true, {no_dispatch_match, _}} -> "pass";
+             {false, _} -> "none"
+         end}],
+       table([],
+             [tr([], th([{"colspan", "2"}], dispatch_path(Path))), "\n",
+              tr([],
+                 [td([{"class", "label"}], "resource"),
+                  td([], dispatch_resource(Resource))]), "\n",
+              tr([],
+                 [td([{"class", "label"}], "argument"),
+                  td([], dispatch_args(Args))])
+              |case {HasMatch, Dispatch} of
+                  {true, {_Mod, _, _, Bindings, _, DispPath}} ->
+                      [tr([],
+                          [td([{"class", "label"}], "bindings"),
+                           td([], dispatch_bindings(Bindings))]),
+                       tr([],
+                          [td([{"class", "label"}], "disp_path"),
+                           td([], DispPath)])];
+                  _ -> []
+              end
+             ]))}.
+
+dispatch_bindings([]) ->
+    "none";
+dispatch_bindings(Bindings) ->
+    table([{"class", "bindings"}],
+          [tr([],
+              [td([{"class", "bindingname"}], atom_to_list(Name)),
+               td([], Value)])
+           || {Name, Value} <- Bindings]).
 
 dispatch_path([]) ->
     "/";

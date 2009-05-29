@@ -13,7 +13,11 @@ td.label {
     color: #ccc;
 }
 
-span.pathmatch {
+table.bindings {
+    margin: 0;
+}
+
+span.pathmatch, td.bindingname {
     font-style: italic;
     color: #909;
 }
