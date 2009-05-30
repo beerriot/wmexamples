@@ -86,3 +86,18 @@ which is included and exposed at http://localhost:8000/sampletrace
 That resource isn't good for much other than generating those simple
 examples, but I thought it best to include it for demonstration
 purposes.
+
+POST Example (wwwform -> json)
+---
+
+formjson_resource.erl is mainly an example of how one might handle a
+POST in a webmachine resource.  process_post/2 demonstrates how to
+grab the request body out of the ReqData (wrq:req_body/1), and push a
+response body into one (wrq:append_to_response_body/2).
+
+Issuing a GET to formjson_resource will encode the query parameters of
+the request as JSON, and return that encoding in the response body.
+
+Issuing a POST to formjson_resource will assume that the body of the
+request is application/x-www-form-urlencoded data, re-ecode it as
+JSON, and return that JSON in the response body.
