@@ -3,8 +3,10 @@
 %%      re-encodes it as JSON.  The data is expected as query
 %%      parameters for a GET, and request body for a POST.
 %%
+%%      ```
 %%      In:  one=two&me=pope
 %%      Out: {"one":"two","me":"pope"}
+%%      '''
 -module(formjson_resource).
 -export([init/1,
          allowed_methods/2,

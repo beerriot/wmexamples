@@ -31,10 +31,10 @@
 start() ->
     start([]).
 
-%% @spec start(Options) -> Result
-%% @type Options = [Option]
-%% @type Option = {dispatch, Path}|{interval, integer()}
-%% @type Path = string()
+%% @spec start(options()) -> Result
+%% @type options() = [option()]
+%% @type option() = {dispatch, path()}|{interval, integer()}
+%% @type path() = string()
 %% @doc Start the watching, monitoring the file given by the
 %%      'dispatch' path option at the interval given by the
 %%      'interval' option, in milliseconds (or the default path
