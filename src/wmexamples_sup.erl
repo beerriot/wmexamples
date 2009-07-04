@@ -51,5 +51,12 @@ init([]) ->
     Web = {webmachine_mochiweb,
 	   {webmachine_mochiweb, start, [WebConfig]},
 	   permanent, 5000, worker, dynamic},
-    Processes = [Web],
+    DispLoad = {dispatch_watcher,
+                {dispatch_watcher, start, []},
+                %% above is same as
+                %% {dispatch_watcher, start,
+                %%  [[{dispatch, "priv/dispatch.conf"},
+                %%    {interval, 1000}]]},
+                permanent, 5000, worker, dynamic},
+    Processes = [Web, DispLoad],
     {ok, {{one_for_one, 10, 10}, Processes}}.

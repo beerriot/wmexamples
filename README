@@ -101,3 +101,25 @@ the request as JSON, and return that encoding in the response body.
 Issuing a POST to formjson_resource will assume that the body of the
 request is application/x-www-form-urlencoded data, re-ecode it as
 JSON, and return that JSON in the response body.
+
+Dispatch Reloader
+---
+
+dispatch_watcher.erl defines a gen_server that can be started in the
+background, and will watch dispatch.conf for changes, reloading it
+when necessary.
+
+By default, it checks "priv/dispatch.conf" for updates once a second.
+This behavior can be changed by passing the configuration parameters:
+
+  {dispatch, Path}: where Path is a string describing the path of an
+                    alternate dispatch file
+  {interval, Time}: where Time is an integer number of milliseconds
+                    describing how long to wait between checks for
+                    updates to the dispatch file
+
+wmexamples starts dispatch_watcher by including a supervisor child
+specification in the return value of wmexamples_sup:init/1.  It could
+be started instead by appending "-s dispatch_watcher" to the final
+command of start-dev.sh, to get a dev-vs-production kind of
+configuration.
