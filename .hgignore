@@ -7,4 +7,5 @@ priv\/log\/.*
 erl_crash.dump
 .*\.pyc
 .*\.orig
+doc\/.*
 
