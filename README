@@ -11,7 +11,7 @@ need:
 
 - Erlang - http://erlang.org/
 - Webmachine - http://bitbucket.org/justin/webmachine
-- ibrowse - http://code.google.com/p/erl-ibrowse/
+- ibrowse - http://github.com/cmullaparthi/ibrowse/
 
 Note: ibrowse is only needed for the CouchDB proxy resource.  If you
 will not be using couchdb_proxy, you can remove the dependency on
