@@ -22,7 +22,7 @@ content_types_provided(RD, Context) ->
     {[{Mime, content}], RD, Context}.
 
 resource_exists(RD, Context=#context{root=Root}) ->
-    FP = filename:join([Root, wrq:disp_path(RD)]),
+    FP = filename:join([Root|clean_path(wrq:disp_path(RD))]),
     case filelib:is_regular(FP) of
 	true ->
 	    {true, RD, Context#context{filepath=FP}};
@@ -33,3 +33,10 @@ resource_exists(RD, Context=#context{root=Root}) ->
 content(RD, Context=#context{filepath=FP}) ->
     {ok, Data} = file:read_file(FP),
     {Data, RD, Context}.
+
+clean_path(Path) ->
+    Fun = fun("..", [])       -> [];     % no shallower
+             ("..", [_|Rest]) -> Rest;   % one shallower
+             (P,    Acc)      -> [P|Acc] % one deeper
+          end,
+    lists:reverse(lists:foldl(Fun, [], string:tokens(Path, "/"))).
