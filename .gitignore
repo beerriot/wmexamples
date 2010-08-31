@@ -1,0 +1,12 @@
+*.beam
+*~
+logs/
+.DS_Store
+ebin/
+priv/log/
+erl_crash.dump
+*.pyc
+*.orig
+doc/
+deps/
+

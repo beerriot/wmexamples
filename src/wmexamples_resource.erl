@@ -42,7 +42,7 @@ dispatch_details(ReqData) ->
           end,
     HasMatch = if is_list(Url) ->
                        case webmachine_dispatcher:dispatch(Url, Dispatch) of
-                           {_Module, _, _, _, _, _} ->
+                           {_Module, _, _, _, _, _, _, _} ->
                                true;
                            {no_dispatch_match, _} ->
                                false
@@ -83,15 +83,15 @@ dispatch_detail(D={Path, Resource, Args}, HasMatch, Url) ->
                   true -> false
                end,
     {case Dispatch of
-         {_Mod, _, _, _, _, _} -> true;
-         _                     -> false
+         {_Mod, _, _, _, _, _, _, _} -> true;
+         _                           -> false
      end,
      divblock(
        [{"class",
          case {HasMatch, Dispatch} of
-             {true, {_Mod, _, _, _, _, _}} -> "match";
-             {true, _}                     -> "pass";
-             {false, _}                    -> "none"
+             {true, {_Mod, _, _, _, _, _, _, _}} -> "match";
+             {true, _}                           -> "pass";
+             {false, _}                          -> "none"
          end}],
        table([],
              [tr([], th([{"colspan", "2"}], dispatch_path(Path))), "\n",
@@ -102,7 +102,7 @@ dispatch_detail(D={Path, Resource, Args}, HasMatch, Url) ->
                  [td([{"class", "label"}], "argument"),
                   td([], dispatch_args(Args))])
               |case {HasMatch, Dispatch} of
-                  {true, {_Mod, _, _, Bindings, _, DispPath}} ->
+                  {true, {_Mod, _, _, _, _, Bindings, _, DispPath}} ->
                       [tr([],
                           [td([{"class", "label"}], "bindings"),
                            td([], dispatch_bindings(Bindings))]),

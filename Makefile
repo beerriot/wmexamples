@@ -1,20 +1,21 @@
 ERL          ?= erl
-EBIN_DIRS    := $(wildcard deps/*/ebin)
 APP          := wmexamples
 
-all: erl ebin/$(APP).app
+.PHONY: deps
 
-erl:
-	@$(ERL) -pa $(EBIN_DIRS) -noinput +B \
-	  -eval 'case make:all() of up_to_date -> halt(0); error -> halt(1) end.'
+all: deps
+	@./rebar compile
+
+deps:
+	@./rebar get-deps
+
+clean:
+	@./rebar clean
+
+distclean: clean
+	@./rebar delete-deps
 
 docs:
 	@$(ERL) -noshell -run edoc_run application \
           '$(APP)' '"."' '[{preprocess, true},{includes, ["deps"]}]'
 
-clean: 
-	@echo "removing:"
-	@rm -fv ebin/*.beam ebin/*.app
-
-ebin/$(APP).app: src/$(APP).app
-	@cp -v src/$(APP).app $@
